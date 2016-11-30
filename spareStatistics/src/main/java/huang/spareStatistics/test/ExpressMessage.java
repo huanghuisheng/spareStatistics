@@ -66,13 +66,16 @@ public class ExpressMessage {
 		{
 			String expId=String.valueOf(list.get(i).get("c_express_id"));
 			String sendId=String.valueOf(list.get(i).get("n_id"));
-			String contentStore =expressStore(expId);
-			String content = centextMessage(expId,contentStore);
+			String content=Message.message(expId);
 			System.out.println("-------"+content);
 			//更新快递信息；
 			Map<String,Object>  map=new HashMap<String,Object>();
 			map.put("c_express_message", content);
 			dao.basicUpdate("iov_spare_send", map, "n_id="+sendId);
+			//获取交换机快递信息
+			dao.basicUpdate("iov_spare_change", map, "c_express_id="+expId);
+			
+			
 		}
 	}
 	

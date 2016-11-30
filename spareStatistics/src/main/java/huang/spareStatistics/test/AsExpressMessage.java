@@ -66,26 +66,33 @@ public class AsExpressMessage {
 		{
 			String expId=String.valueOf(list.get(i).get("c_express_id"));
 			String sendId=String.valueOf(list.get(i).get("n_id"));
-			String contentStore =expressStore(expId);
-			String content = centextMessage(expId,contentStore);
+		
+			//String content = centextMessage(expId,contentStore);
+			String content=Message.message(expId);
 			System.out.println("-------"+content);
 			//更新快递信息；
 			Map<String,Object>  map=new HashMap<String,Object>();
 			map.put("c_express_message", content);
-			dao.basicUpdate("iov_spare_send", map, "n_id="+sendId);
+			dao.basicUpdate("iov_spare_as_send", map, "n_id="+sendId);
+			
+			//获取交换机快递信息
+			dao.basicUpdate("iov_spare_as_change", map, "c_express_id="+expId);
+			
+			
+			
+			
 		}
-		//获取交换机快递单号
-		List<Map<String, Object>> list1 = dao.expressMessage2();
-		for(int j=0;j<list1.size();j++)
-		{
-			String expId=String.valueOf(list.get(j).get("c_express_id"));
-			String sendId=String.valueOf(list.get(j).get("n_id"));
-			String contentStore =expressStore(expId);
-			String content = centextMessage(expId,contentStore);
-			Map<String,Object>  map1=new HashMap<String,Object>();
-			map1.put("c_express_message", content);
-			dao.basicUpdate("iov_spare_as_change", map1, "n_id="+sendId);	
-		}
+//		//获取交换机快递单号
+//		List<Map<String, Object>> list1 = dao.expressMessage2();
+//		for(int j=0;j<list1.size();j++)
+//		{
+//			String expId=String.valueOf(list.get(j).get("c_express_id"));
+//			String sendId=String.valueOf(list.get(j).get("n_id"));
+//			String content=Message.message(expId);
+//			Map<String,Object>  map1=new HashMap<String,Object>();
+//			map1.put("c_express_message", content);
+//			dao.basicUpdate("iov_spare_as_change", map1, "n_id="+sendId);	
+//		}
 		
 		
 	    
